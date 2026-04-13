@@ -218,12 +218,18 @@ a:hover { text-decoration: underline; }
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
-.terminal-thinking .dot {
+.terminal-thinking .thinking-icon {
   color: #D4845E;
-  font-size: 8px;
+  font-size: 14px;
+  animation: spin-slow 3s linear infinite;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .terminal-thinking .thinking-text {
@@ -243,15 +249,33 @@ a:hover { text-decoration: underline; }
   animation: thinking-ripple 2.5s ease-in-out infinite;
 }
 
+.terminal-thinking .thinking-meta {
+  font-size: 11px;
+  color: #666;
+}
+
 @keyframes thinking-ripple {
   0% { background-position: 100% 0; }
   100% { background-position: -100% 0; }
 }
 
-.terminal-sad-prompt {
-  color: #888;
+.terminal-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-left: 22px;
+}
+
+.terminal-tip .tip-branch {
+  color: #555;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.terminal-tip .tip-text {
   font-size: 12px;
-  font-style: italic;
+  color: #888;
   min-height: 18px;
   transition: opacity 0.4s ease;
 }
@@ -380,6 +404,57 @@ a:hover { text-decoration: underline; }
   box-shadow: 0 8px 32px rgba(212, 132, 94, 0.35);
   text-decoration: none;
   color: #0d0d0d;
+}
+
+.brew-install {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.brew-label {
+  font-size: 13px;
+  color: #666;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.brew-cmd {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  position: relative;
+}
+
+.brew-cmd:hover {
+  border-color: #D4845E;
+}
+
+.brew-cmd code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #d4d4d4;
+}
+
+.brew-copy {
+  font-size: 12px;
+  color: #D4845E;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.brew-copied {
+  font-size: 12px;
+  color: #4ade80;
+  font-family: 'JetBrains Mono', monospace;
+  position: absolute;
+  right: 16px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
 .cta-note {
@@ -524,30 +599,94 @@ section {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Touch Grass */
-.grass-box {
+/* Are You Okay */
+.checkin-box {
   max-width: 640px;
   margin: 0 auto;
-  background: linear-gradient(135deg, #1a1510 0%, #1a1a1a 100%);
-  border: 1px solid #3a2a1a;
-  border-radius: 16px;
-  padding: 48px;
   text-align: center;
 }
 
-.grass-box .icon { font-size: 48px; margin-bottom: 16px; }
-
-.grass-box h3 {
+.checkin-box h3 {
   font-size: 24px;
   color: #D4845E;
+  margin-top: 32px;
   margin-bottom: 12px;
 }
 
-.grass-box p {
+.checkin-box p {
   font-size: 15px;
   color: #888;
   max-width: 440px;
   margin: 0 auto;
+}
+
+.notif-mockup {
+  background: #2a2a2e;
+  border: 1px solid #3a3a3e;
+  border-radius: 16px;
+  padding: 16px 20px;
+  max-width: 380px;
+  margin: 0 auto;
+  text-align: left;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.notif-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.notif-icon {
+  font-size: 16px;
+}
+
+.notif-app {
+  font-size: 12px;
+  color: #999;
+  font-weight: 500;
+  flex: 1;
+}
+
+.notif-time {
+  font-size: 12px;
+  color: #666;
+}
+
+.notif-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f0f0f0;
+  margin-bottom: 4px;
+}
+
+.notif-body {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.notif-actions {
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid #3a3a3e;
+  padding-top: 10px;
+}
+
+.notif-action {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4a9eff;
+  padding: 4px 0;
+  cursor: default;
+}
+
+.notif-action:first-child {
+  border-right: 1px solid #3a3a3e;
 }
 
 /* FAQ */
@@ -601,6 +740,70 @@ section {
   font-size: 13px;
   color: #444;
   margin-top: 8px;
+}
+
+/* Thank the Author */
+.thank-author {
+  background: #111;
+}
+
+.author-box {
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 48px 32px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+}
+
+.author-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #D4845E;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.author-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #f0f0f0;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.author-name:hover {
+  color: #D4845E;
+}
+
+.author-desc {
+  font-size: 15px;
+  color: #888;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.author-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.author-link {
+  font-size: 14px;
+  color: #D4845E;
+  padding: 8px 16px;
+  border: 1px solid #D4845E;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.author-link:hover {
+  background: #D4845E;
+  color: #0d0d0d;
+  text-decoration: none;
 }
 
 /* Footer */
@@ -658,13 +861,13 @@ footer .copy {
   .terminal-body { padding: 16px 14px 18px; }
   .terminal-content { flex-direction: column; gap: 12px; }
   .terminal-robot-art { font-size: 9px; }
-  .terminal-sad-prompt { font-size: 10px; }
+  .terminal-tip .tip-text { font-size: 10px; }
   .terminal-statusbar { font-size: 10px; padding: 4px 12px; }
   .hero-tagline { font-size: 16px; }
   .feature-grid { grid-template-columns: 1fr; }
   .steps-grid { grid-template-columns: 1fr; gap: 24px; }
   .section-title { font-size: 28px; }
-  .grass-box { padding: 32px 24px; }
+  .notif-mockup { max-width: 100%; }
   .live-counter .time { font-size: 32px; }
 }
 </style>
@@ -688,10 +891,14 @@ footer .copy {
           <span class="prompt-text">fix my life please</span>
         </div>
         <div class="terminal-thinking">
-          <span class="dot">●</span>
+          <span class="thinking-icon">✳</span>
           <span class="thinking-text">Thinking...</span>
+          <span class="thinking-meta">(<span id="thinkTime">1m 18s</span> · ↓ <span id="thinkTokens">947</span> tokens · thinking with <span id="thinkEffort">high</span> effort)</span>
         </div>
-        <div class="terminal-sad-prompt" id="sadPrompt">// Claude has been thinking for 47 seconds. You could have mass-scrolled your terminal 3 more times by now.</div>
+        <div class="terminal-tip">
+          <span class="tip-branch">⎿</span>
+          <span class="tip-text" id="sadPrompt">Tip: You've mass-scrolled the terminal 14 times. Claude is still thinking. Nobody is productive here.</span>
+        </div>
         <div class="terminal-input-line">
           <span class="prompt-arrow">❯</span>
         </div>
@@ -707,7 +914,15 @@ footer .copy {
   </div>
   <p class="hero-sub">A macOS menu bar app that tracks how long you've been watching Claude Code think.</p>
   <p class="hero-tagline" id="tagline">It's not time tracking. It's loss tracking.</p>
-  <a href="https://github.com/nickcmiller/claude-is-thinking/releases" class="cta-btn">Download for Mac</a>
+  <a href="https://github.com/Exorust/claude-is-thinking/releases/tag/v1.1.1" class="cta-btn">Download DMG</a>
+  <div class="brew-install">
+    <span class="brew-label">or install via Homebrew</span>
+    <div class="brew-cmd" onclick="navigator.clipboard.writeText('brew install --cask claude-is-thinking');this.querySelector('.brew-copied').style.opacity='1';setTimeout(()=>this.querySelector('.brew-copied').style.opacity='0',1500)">
+      <code>brew install --cask claude-is-thinking</code>
+      <span class="brew-copy">copy</span>
+      <span class="brew-copied">copied!</span>
+    </div>
+  </div>
   <p class="cta-note">Free. Open source. Emotionally devastating.</p>
 </div>
 
@@ -795,13 +1010,25 @@ footer .copy {
   </div>
 </section>
 
-<!-- Touch Grass -->
+<!-- Are You Okay -->
 <section>
   <div class="container">
-    <div class="grass-box fade-in">
-      <div class="icon">&#127793;</div>
-      <h3>Built-in Touch Grass Reminders</h3>
-      <p>Set a threshold. When your daily Claude wait time exceeds it, we'll gently suggest you go outside. You won't. But we'll suggest it.</p>
+    <div class="checkin-box fade-in">
+      <div class="notif-mockup">
+        <div class="notif-bar">
+          <div class="notif-icon">⏱</div>
+          <div class="notif-app">Claude is Thinking?</div>
+          <div class="notif-time">now</div>
+        </div>
+        <div class="notif-title">Hey... are you okay?</div>
+        <div class="notif-body">You've been waiting for Claude for 5 minutes. That's longer than most therapy sessions feel. Maybe stretch?</div>
+        <div class="notif-actions">
+          <span class="notif-action">I'm fine (lying)</span>
+          <span class="notif-action">Remind in 30 min</span>
+        </div>
+      </div>
+      <h3>It checks in on you after 5 minutes</h3>
+      <p>Because someone should. A gentle macOS notification that asks if you're okay. You're probably not. But it's nice to be asked.</p>
     </div>
   </div>
 </section>
@@ -833,8 +1060,8 @@ footer .copy {
         <div class="faq-a">You shouldn't. But you will. And then you'll screenshot it and post it on Twitter. We know how this ends.</div>
       </div>
       <div class="faq-item fade-in">
-        <div class="faq-q">What's the "Touch Grass" feature?</div>
-        <div class="faq-a">A notification that fires when you've spent too long waiting for an AI. It's like a fitness tracker, but for your relationship with your terminal.</div>
+        <div class="faq-q">What's the "Are you okay?" notification?</div>
+        <div class="faq-a">After 5 minutes of waiting, it checks in on you. Like a wellness app, but for your relationship with your terminal.</div>
       </div>
     </div>
   </div>
@@ -845,8 +1072,32 @@ footer .copy {
   <div class="container">
     <h2 class="section-title fade-in" style="margin-bottom: 16px;">Ready to quantify the void?</h2>
     <p style="color: #666; margin-bottom: 32px; font-size: 16px;" class="fade-in">Join the growing number of developers who now know exactly how much time they spend doing nothing.</p>
-    <a href="https://github.com/nickcmiller/claude-is-thinking/releases" class="cta-btn fade-in">Download for Mac</a>
+    <a href="https://github.com/Exorust/claude-is-thinking/releases/tag/v1.1.1" class="cta-btn fade-in">Download DMG</a>
+    <div class="brew-install fade-in">
+      <span class="brew-label">or install via Homebrew</span>
+      <div class="brew-cmd" onclick="navigator.clipboard.writeText('brew install --cask claude-is-thinking');this.querySelector('.brew-copied').style.opacity='1';setTimeout(()=>this.querySelector('.brew-copied').style.opacity='0',1500)">
+        <code>brew install --cask claude-is-thinking</code>
+        <span class="brew-copy">copy</span>
+        <span class="brew-copied">copied!</span>
+      </div>
+    </div>
     <p class="cta-note fade-in" style="margin-top: 16px;">macOS 13+. No sign-up. No telemetry. Just truth.</p>
+  </div>
+</section>
+
+<!-- Thank the Author -->
+<section class="thank-author">
+  <div class="container">
+    <div class="author-box fade-in">
+      <div class="author-label">Built by</div>
+      <a href="https://www.linkedin.com/in/chandrahas-aroori/" class="author-name">Chandrahas Aroori</a>
+      <p class="author-desc">Who spent an mass-scrolled amount of time waiting for Claude Code, got tired of not knowing exactly how much time he was wasting, and decided to make everyone else confront it too.</p>
+      <div class="author-links">
+        <a href="https://github.com/Exorust/" class="author-link">GitHub</a>
+        <a href="https://x.com/charoori_ai" class="author-link">Twitter/X</a>
+        <a href="https://github.com/Exorust/claude-is-thinking" class="author-link">Star the repo</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -855,8 +1106,8 @@ footer .copy {
   <div class="brand">Claude is Thinking?</div>
   <div class="tagline">Made with idle time by someone who should have touched grass.</div>
   <div class="links">
-    <a href="https://github.com/nickcmiller/claude-is-thinking">GitHub</a>
-    <a href="https://github.com/nickcmiller/claude-is-thinking/releases">Download</a>
+    <a href="https://github.com/Exorust/claude-is-thinking">GitHub</a>
+    <a href="https://github.com/Exorust/claude-is-thinking/releases/tag/v1.1.1">Download</a>
     <a href="https://twitter.com/intent/tweet?text=I%20spent%20this%20much%20time%20watching%20Claude%20think%20today.%20claudeisthinking.com">Share on X</a>
   </div>
   <div class="copy">claudeisthinking.com</div>
@@ -904,42 +1155,101 @@ footer .copy {
   el.style.transition = 'opacity 0.4s ease';
 })();
 
+// Live thinking timer
+(function() {
+  let seconds = 78; // start at 1m 18s
+  const timeEl = document.getElementById('thinkTime');
+  setInterval(() => {
+    seconds++;
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    timeEl.textContent = m + 'm ' + String(s).padStart(2, '0') + 's';
+  }, 1000);
+})();
+
+// Funny token counter - accelerates absurdly
+(function() {
+  let tokens = 947;
+  const tokenEl = document.getElementById('thinkTokens');
+  const format = (n) => n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n);
+  setInterval(() => {
+    // tokens increase faster over time, with random bursts
+    const burst = Math.random() < 0.1 ? Math.floor(Math.random() * 500) + 200 : 0;
+    tokens += Math.floor(Math.random() * 30) + 5 + burst;
+    tokenEl.textContent = format(tokens);
+  }, 800);
+})();
+
+// Effort level escalation
+(function() {
+  const efforts = [
+    "high",
+    "unreasonable",
+    "concerning",
+    "existential",
+    "maximum",
+    "illegal",
+    "weapons-grade",
+    "unhinged",
+    "government-classified",
+    "beyond mortal comprehension",
+    "yes",
+    "too much",
+    "more than your therapist",
+    "unprecedented",
+    "alarming",
+    "olympic-level",
+    "the kind that voids warranties",
+  ];
+  const el = document.getElementById('thinkEffort');
+  let i = 0;
+  setInterval(() => {
+    el.style.opacity = '0';
+    setTimeout(() => {
+      i = (i + 1) % efforts.length;
+      el.textContent = efforts[i];
+      el.style.opacity = '1';
+    }, 300);
+  }, 6000);
+  el.style.transition = 'opacity 0.3s ease';
+})();
+
 // Rotating sad prompts in the terminal
 (function() {
   const sadPrompts = [
-    "// Claude has been thinking for 47 seconds. You could have mass-scrolled your terminal 3 more times by now.",
-    "// You mass-scroll the terminal. Nothing has changed. You mass-scroll again. Still nothing. This is your life now.",
-    "// Your standup is in 4 minutes. Claude has been thinking for 6. Do the math.",
-    "// Claude is thinking. You are also thinking. Neither of you is shipping.",
-    "// The cursor blinks. You blink. The cursor blinks again. It's winning.",
-    "// You mass-scrolled and briefly saw a file path flash past. Your heart rate spiked. It was just a comment.",
-    "// You mass-scroll upward to feel useful. The scroll buffer ends. You scroll back down. Claude is still thinking.",
-    "// Claude is thinking so hard it forgot you were here. Relatable.",
-    "// You mass-scroll past 200 lines of tool calls. None of them are the answer. All of them are your patience leaving.",
-    "// You mass-scrolled so fast the terminal lagged. Congratulations, you've now blocked two processes.",
-    "// Your boss walks by. You alt-tab. He walks away. You alt-tab back. Claude is still thinking. Nobody is productive here.",
-    "// The terminal says 'Shimmying...' You are not shimmying. You are decomposing.",
-    "// You mass-scroll to the top. There's your original prompt, full of hope. You scroll back down to reality.",
-    "// Somewhere in Anthropic's data center, a GPU is working very hard. You are not.",
-    "// Claude has been thinking longer than your last relationship lasted.",
-    "// You opened Twitter while waiting. You came back. Claude is still thinking. Twitter was more productive.",
-    "// The loading spinner has made 847 full rotations. You counted. That's who you are now.",
-    "// You mass-scrolled so aggressively your trackpad filed a workers' comp claim.",
-    "// 'Shimmying...' implies movement. You have not moved in 90 seconds.",
-    "// Claude is thinking about your code. You're thinking about lunch. Only one of you has priorities straight.",
-    "// You whispered 'please' at your terminal. Nobody heard. Claude kept thinking.",
-    "// Your screen dimmed from inactivity. Even your Mac thinks you should be doing something else.",
-    "// The context window is at 47%. Your patience is at 3%.",
-    "// You mass-scroll. The terminal renders 400 lines of JSON. Your soul leaves your body.",
-    "// You could have written the function yourself by now. But you won't. And you know it.",
-    "// Time spent mass-scrolling: 2m 14s. Time spent being productive: we both know the answer.",
-    "// Claude just read 47 files. You read one Slack message. Different energy.",
-    "// The 'recent activity' section is judging you. So is the timer. So is everyone.",
-    "// You told yourself 'one more prompt then I'll take a break.' That was 11 prompts ago.",
-    "// Your monitor has more screen-on time than you have will-to-live time.",
-    "// Claude is in deep thought. You are in deep denial about your afternoon.",
-    "// Elapsed: 2 minutes. Tasks completed: 0. Mass-scrolls completed: 14.",
-    "// You are mass-scrolling terminal output you don't understand to feel like you're supervising.",
+    "Tip: You've mass-scrolled the terminal 14 times. Claude is still thinking. Nobody is productive here.",
+    "Tip: Your standup is in 4 minutes. Claude has been thinking for 6. Do the math.",
+    "Tip: Claude is thinking. You are also thinking. Neither of you is shipping.",
+    "Tip: The cursor blinks. You blink. The cursor blinks again. It's winning.",
+    "Tip: You mass-scroll upward to feel useful. The scroll buffer ends. You scroll back down. Claude is still thinking.",
+    "Tip: Claude is thinking so hard it forgot you were here. Relatable.",
+    "Tip: Somewhere in Anthropic's data center, a GPU is working very hard. You are not.",
+    "Tip: Claude has been thinking longer than your last relationship lasted.",
+    "Tip: You opened Twitter while waiting. You came back. Claude is still thinking. Twitter was more productive.",
+    "Tip: The loading spinner has made 847 full rotations. You counted. That's who you are now.",
+    "Tip: You mass-scrolled so aggressively your trackpad filed a workers' comp claim.",
+    "Tip: 'Thinking...' implies something is being made. Your patience is being unmade.",
+    "Tip: Claude is thinking about your code. You're thinking about lunch. Only one of you has priorities straight.",
+    "Tip: You whispered 'please' at your terminal. Nobody heard. Claude kept thinking.",
+    "Tip: Your screen dimmed from inactivity. Even your Mac thinks you should be doing something else.",
+    "Tip: The context window is at 47%. Your patience is at 3%.",
+    "Tip: You could have written the function yourself by now. But you won't. And you know it.",
+    "Tip: Claude just read 47 files. You read one Slack message. Different energy.",
+    "Tip: You told yourself 'one more prompt then I'll take a break.' That was 11 prompts ago.",
+    "Tip: Claude is in deep thought. You are in deep denial about your afternoon.",
+    "Tip: Use /touch-grass to step away. Just kidding. That's not a real command. But it should be.",
+    "Tip: Your houseplants miss you. Claude doesn't. Claude doesn't know you exist.",
+    "Tip: That's 947 tokens downloaded and 0 problems solved. Progress.",
+    "Tip: Medium effort means Claude is trying, but not that hard. Like you on a Monday.",
+    "Tip: At this rate, you could have baked bread. Claude would still be concocting.",
+    "Tip: Your boss thinks you're coding. You're watching a sparkle spin. Don't correct him.",
+    "Tip: The 'thinking with medium effort' label is AI's way of saying 'I'll get to it.'",
+    "Tip: Fun fact — Claude has now spent more time on your prompt than you spent writing it.",
+    "Tip: Use /btw to ask a side question. Or don't. Claude is busy not answering your first one.",
+    "Tip: 1m 18s is enough time to make a pour-over coffee. You deserve it more than this response.",
+    "Tip: You are mass-scrolling terminal output you don't understand to feel like you're supervising.",
+    "Tip: That response took longer than most microwave meals. Perfect nap length, honestly.",
+    "Tip: If 'touch grass' were a native Mac utility, you'd have 47 notifications by now.",
   ];
   const el = document.getElementById('sadPrompt');
   let i = 0;
