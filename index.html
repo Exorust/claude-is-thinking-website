@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude is Thinking? — Track Your AI Wait Time</title>
+<meta name="description" content="A macOS menu bar app that tracks how long you've been watching Claude Code think. It's not time tracking. It's loss tracking.">
+<meta property="og:title" content="Claude is Thinking?">
+<meta property="og:description" content="A macOS menu bar app that tracks how long you stare at your terminal waiting for Claude Code.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://claudeisthinking.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0d0d0d;
+  color: #e5e5e5;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+a { color: #4ade80; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 120px 24px 80px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-size: 56px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+
+.hero h1 span { color: #4ade80; }
+
+.hero-tagline {
+  font-size: 20px;
+  color: #888;
+  max-width: 560px;
+  margin: 0 auto 12px;
+  min-height: 60px;
+}
+
+.hero-sub {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 16px 48px;
+  background: #4ade80;
+  color: #0d0d0d;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(74, 222, 128, 0.3);
+  text-decoration: none;
+  color: #0d0d0d;
+}
+
+.cta-note {
+  font-size: 13px;
+  color: #555;
+  margin-top: 16px;
+}
+
+/* Sections */
+section {
+  padding: 80px 24px;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #4ade80;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 48px;
+  letter-spacing: -1px;
+}
+
+/* Feature Cards */
+.features {
+  background: #111;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 32px 24px;
+  transition: border-color 0.2s;
+}
+
+.feature-card:hover { border-color: #4ade80; }
+
+.feature-card .icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  font-size: 17px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: #777;
+  line-height: 1.5;
+}
+
+/* Steps */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.step {
+  text-align: center;
+}
+
+.step-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 48px;
+  font-weight: 700;
+  color: #4ade80;
+  opacity: 0.3;
+  margin-bottom: 12px;
+}
+
+.step h3 {
+  font-size: 17px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.step p {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Testimonials */
+.testimonials {
+  background: #111;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.testimonial {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 28px 32px;
+}
+
+.testimonial p {
+  font-size: 16px;
+  color: #ccc;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.testimonial .author {
+  font-size: 13px;
+  color: #555;
+  font-style: normal;
+}
+
+.testimonial-disclaimer {
+  text-align: center;
+  font-size: 12px;
+  color: #444;
+  margin-top: 24px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Touch Grass */
+.grass-box {
+  max-width: 640px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #1a2a1a 0%, #1a1a1a 100%);
+  border: 1px solid #2a3a2a;
+  border-radius: 16px;
+  padding: 48px;
+  text-align: center;
+}
+
+.grass-box .icon { font-size: 48px; margin-bottom: 16px; }
+
+.grass-box h3 {
+  font-size: 24px;
+  color: #4ade80;
+  margin-bottom: 12px;
+}
+
+.grass-box p {
+  font-size: 15px;
+  color: #888;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* FAQ */
+.faq-list {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid #222;
+  padding: 24px 0;
+}
+
+.faq-item:last-child { border-bottom: none; }
+
+.faq-q {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.faq-a {
+  font-size: 15px;
+  color: #777;
+}
+
+/* Counter */
+.live-counter {
+  text-align: center;
+  padding: 60px 24px;
+  background: #111;
+}
+
+.live-counter .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.live-counter .time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 48px;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.live-counter .sub {
+  font-size: 13px;
+  color: #444;
+  margin-top: 8px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 60px 24px;
+  border-top: 1px solid #1a1a1a;
+}
+
+footer .brand {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+footer .tagline {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+footer .links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+footer .links a {
+  font-size: 14px;
+  color: #666;
+}
+
+footer .copy {
+  font-size: 12px;
+  color: #333;
+}
+
+/* Fade in on scroll */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 36px; letter-spacing: -1px; }
+  .hero-tagline { font-size: 16px; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr; gap: 24px; }
+  .section-title { font-size: 28px; }
+  .grass-box { padding: 32px 24px; }
+  .live-counter .time { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-icon">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="32" r="28" stroke="#4ade80" stroke-width="3" stroke-dasharray="8 6" opacity="0.4">
+        <animateTransform attributeName="transform" type="rotate" from="0 32 32" to="360 32 32" dur="8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="32" cy="32" r="18" stroke="#4ade80" stroke-width="2.5" stroke-dasharray="4 8" opacity="0.7">
+        <animateTransform attributeName="transform" type="rotate" from="360 32 32" to="0 32 32" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="32" cy="32" r="4" fill="#4ade80"/>
+    </svg>
+  </div>
+  <h1>Claude is <span>Thinking</span>?</h1>
+  <p class="hero-tagline" id="tagline">It's not time tracking. It's loss tracking.</p>
+  <p class="hero-sub">A macOS menu bar app that tracks how long you've been watching Claude Code think.</p>
+  <a href="https://github.com/nickcmiller/claude-is-thinking/releases" class="cta-btn">Download for Mac</a>
+  <p class="cta-note">Free. Open source. Emotionally devastating.</p>
+</div>
+
+<!-- Live Counter -->
+<div class="live-counter fade-in">
+  <div class="label">Time you've spent on this page instead of working</div>
+  <div class="time" id="pageTimer">0:00</div>
+  <div class="sub">See? You're already good at waiting.</div>
+</div>
+
+<!-- Features -->
+<section class="features">
+  <div class="container">
+    <div class="section-label fade-in">Features</div>
+    <h2 class="section-title fade-in">Everything you never asked for</h2>
+    <div class="feature-grid">
+      <div class="feature-card fade-in">
+        <div class="icon">&#9201;</div>
+        <h3>Real-time Wait Tracking</h3>
+        <p>A live timer in your menu bar counts every second Claude spends thinking. You'll wish it didn't.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="icon">&#128200;</div>
+        <h3>Daily &amp; Weekly Analytics</h3>
+        <p>Charts. Graphs. A number that makes you question your career choices.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="icon">&#128247;</div>
+        <h3>Share Your Pain</h3>
+        <p>Export a beautiful stat card. Post it. Let others know you spent 47 minutes today watching a cursor blink.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section>
+  <div class="container">
+    <div class="section-label fade-in">How it works</div>
+    <h2 class="section-title fade-in">Three steps to self-awareness</h2>
+    <div class="steps-grid">
+      <div class="step fade-in">
+        <div class="step-number">1</div>
+        <h3>Install the app</h3>
+        <p>Takes 10 seconds. The emotional damage takes longer.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-number">2</div>
+        <h3>Use Claude Code normally</h3>
+        <p>Hooks install automatically. You don't have to do anything. (You're already doing nothing. That's the whole point.)</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-number">3</div>
+        <h3>Check your stats</h3>
+        <p>Click the menu bar icon. Confront reality.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-label fade-in">Testimonials</div>
+    <h2 class="section-title fade-in">What people are saying</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial fade-in">
+        <p>"I used to mass-scroll my terminal vigorously. Now I just sit in dignified silence and watch the timer go up."</p>
+        <div class="author">— Anonymous Engineer</div>
+      </div>
+      <div class="testimonial fade-in">
+        <p>"My therapist asked what I do for a living. I showed her my weekly stats. She cried."</p>
+        <div class="author">— Senior Developer</div>
+      </div>
+      <div class="testimonial fade-in">
+        <p>"Finally, an app that validates my suspicion that I'm not a developer, I'm a waiter."</p>
+        <div class="author">— Staff Engineer</div>
+      </div>
+      <div class="testimonial fade-in">
+        <p>"The share card is beautiful. It's like a LinkedIn humble-brag but for suffering."</p>
+        <div class="author">— Indie Hacker</div>
+      </div>
+    </div>
+    <p class="testimonial-disclaimer fade-in">These testimonials are fake. The wait times are not.</p>
+  </div>
+</section>
+
+<!-- Touch Grass -->
+<section>
+  <div class="container">
+    <div class="grass-box fade-in">
+      <div class="icon">&#127793;</div>
+      <h3>Built-in Touch Grass Reminders</h3>
+      <p>Set a threshold. When your daily Claude wait time exceeds it, we'll gently suggest you go outside. You won't. But we'll suggest it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <div class="section-label fade-in">FAQ</div>
+    <h2 class="section-title fade-in">Questions we've anticipated</h2>
+    <div class="faq-list">
+      <div class="faq-item fade-in">
+        <div class="faq-q">Is this a real app?</div>
+        <div class="faq-a">Unfortunately, yes.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Does it make Claude faster?</div>
+        <div class="faq-a">No. Nothing does. That's why you need this.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Is it free?</div>
+        <div class="faq-a">Yes. The cost is self-awareness.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Does it work with other AI tools?</div>
+        <div class="faq-a">Not yet. We're focused on one existential crisis at a time.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Why should I track this?</div>
+        <div class="faq-a">You shouldn't. But you will. And then you'll screenshot it and post it on Twitter. We know how this ends.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">What's the "Touch Grass" feature?</div>
+        <div class="faq-a">A notification that fires when you've spent too long waiting for an AI. It's like a fitness tracker, but for your relationship with your terminal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section style="text-align: center; padding: 80px 24px;">
+  <div class="container">
+    <h2 class="section-title fade-in" style="margin-bottom: 16px;">Ready to quantify the void?</h2>
+    <p style="color: #666; margin-bottom: 32px; font-size: 16px;" class="fade-in">Join the growing number of developers who now know exactly how much time they spend doing nothing.</p>
+    <a href="https://github.com/nickcmiller/claude-is-thinking/releases" class="cta-btn fade-in">Download for Mac</a>
+    <p class="cta-note fade-in" style="margin-top: 16px;">macOS 13+. No sign-up. No telemetry. Just truth.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="brand">Claude is Thinking?</div>
+  <div class="tagline">Made with idle time by someone who should have touched grass.</div>
+  <div class="links">
+    <a href="https://github.com/nickcmiller/claude-is-thinking">GitHub</a>
+    <a href="https://github.com/nickcmiller/claude-is-thinking/releases">Download</a>
+    <a href="https://twitter.com/intent/tweet?text=I%20spent%20this%20much%20time%20watching%20Claude%20think%20today.%20claudeisthinking.com">Share on X</a>
+  </div>
+  <div class="copy">claudeisthinking.com</div>
+</footer>
+
+<script>
+// Page timer
+(function() {
+  const start = Date.now();
+  const el = document.getElementById('pageTimer');
+  setInterval(() => {
+    const s = Math.floor((Date.now() - start) / 1000);
+    const m = Math.floor(s / 60);
+    const sec = String(s % 60).padStart(2, '0');
+    el.textContent = m + ':' + sec;
+  }, 1000);
+})();
+
+// Rotating taglines
+(function() {
+  const taglines = [
+    "It's not time tracking. It's loss tracking.",
+    "Not a productivity app. An emotional support animal for loading screens.",
+    "Quantifying the noble art of staring at your terminal.",
+    "Software that knows too much about your shame.",
+    "Most dashboards tell you how well you're doing. This one doesn't.",
+    "Screen Time for people whose addiction is hoping the next response fixes the last one.",
+    "If \"touch grass\" were a native Mac utility.",
+    "Every great software category starts with a pain point. This one starts with a self-own.",
+    "This app does not improve your workflow. It just bears witness to it.",
+    "You're not blocked. You're in a long-distance relationship with an autocomplete.",
+    "Timer, dashboard, PNG export, and spiritual damage assessment.",
+    "At some point the stat card stops being analytics and starts being a cry for help."
+  ];
+  const el = document.getElementById('tagline');
+  let i = 0;
+  setInterval(() => {
+    el.style.opacity = '0';
+    setTimeout(() => {
+      i = (i + 1) % taglines.length;
+      el.textContent = taglines[i];
+      el.style.opacity = '1';
+    }, 400);
+  }, 4000);
+  el.style.transition = 'opacity 0.4s ease';
+})();
+
+// Fade in on scroll
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+})();
+</script>
+
+</body>
+</html>
