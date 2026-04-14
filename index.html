@@ -465,10 +465,114 @@ a:hover { text-decoration: underline; }
   transition: opacity 0.2s ease;
 }
 
+.install-section {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.install-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #D4845E;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.install-why {
+  font-size: 12px;
+  color: #666;
+  margin-top: 8px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.alt-installs {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.alt-toggle {
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  list-style: none;
+}
+
+.alt-toggle:hover { color: #D4845E; }
+
+.alt-toggle::-webkit-details-marker { display: none; }
+.alt-toggle::before { content: '▸ '; }
+details[open] .alt-toggle::before { content: '▾ '; }
+
+.alt-content {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cta-btn-secondary {
+  display: inline-block;
+  padding: 10px 32px;
+  border: 1px solid #D4845E;
+  color: #D4845E;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cta-btn-secondary:hover {
+  background: #D4845E;
+  color: #0d0d0d;
+  text-decoration: none;
+}
+
 .cta-note {
   font-size: 13px;
   color: #555;
   margin-top: 16px;
+}
+
+/* Screenshots */
+.screenshots {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.screenshot {
+  height: 480px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Privacy */
+.privacy-box {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 48px 32px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+}
+
+.privacy-box h3 {
+  font-size: 24px;
+  color: #f0f0f0;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.privacy-box p {
+  font-size: 15px;
+  color: #888;
+  line-height: 1.6;
 }
 
 /* Sections */
@@ -876,6 +980,8 @@ footer .copy {
   .steps-grid { grid-template-columns: 1fr; gap: 24px; }
   .section-title { font-size: 28px; }
   .notif-mockup { max-width: 100%; }
+  .screenshot { height: auto; width: 100%; max-width: 300px; }
+  .screenshots { gap: 16px; }
   .live-counter .time { font-size: 32px; }
 }
 </style>
@@ -922,14 +1028,30 @@ footer .copy {
   </div>
   <p class="hero-sub">A macOS menu bar app that tracks how long you've been watching Claude Code think.</p>
   <p class="hero-tagline" id="tagline">It's not time tracking. It's loss tracking.</p>
-  <a href="https://github.com/Exorust/claude-still-thinking/releases/tag/v1.3.0" class="cta-btn">Download DMG</a>
-  <div class="brew-install">
-    <span class="brew-label">or install via Homebrew</span>
-    <div class="brew-cmd" onclick="navigator.clipboard.writeText('brew tap Exorust/tap\nbrew install --cask --no-quarantine claude-still-thinking');this.querySelector('.brew-copied').style.opacity='1';setTimeout(()=>this.querySelector('.brew-copied').style.opacity='0',1500)">
-      <code>brew tap Exorust/tap<br>brew install --cask --no-quarantine claude-still-thinking</code>
+  <div class="install-section">
+    <span class="install-label">Build from source (recommended)</span>
+    <div class="brew-cmd" onclick="navigator.clipboard.writeText('git clone https://github.com/Exorust/claude-still-thinking.git && cd claude-still-thinking/TimeSpend && ./scripts/install.sh');this.querySelector('.brew-copied').style.opacity='1';setTimeout(()=>this.querySelector('.brew-copied').style.opacity='0',1500)">
+      <code>git clone https://github.com/Exorust/claude-still-thinking.git<br>&& cd claude-still-thinking/TimeSpend && ./scripts/install.sh</code>
       <span class="brew-copy">copy</span>
       <span class="brew-copied">copied!</span>
     </div>
+    <p class="install-why">We build from source because Apple's Gatekeeper blocks unsigned apps — even fully open source ones. One command, about a minute.</p>
+  </div>
+  <div class="alt-installs">
+    <details>
+      <summary class="alt-toggle">Alternative installs (Homebrew / DMG)</summary>
+      <div class="alt-content">
+        <div class="brew-install">
+          <span class="brew-label">Homebrew</span>
+          <div class="brew-cmd" onclick="navigator.clipboard.writeText('brew tap Exorust/tap\nbrew install --cask --no-quarantine claude-still-thinking');this.querySelector('.brew-copied').style.opacity='1';setTimeout(()=>this.querySelector('.brew-copied').style.opacity='0',1500)">
+            <code>brew tap Exorust/tap<br>brew install --cask --no-quarantine claude-still-thinking</code>
+            <span class="brew-copy">copy</span>
+            <span class="brew-copied">copied!</span>
+          </div>
+        </div>
+        <a href="https://github.com/Exorust/claude-still-thinking/releases/tag/v1.3.0" class="cta-btn-secondary">Download DMG</a>
+      </div>
+    </details>
   </div>
   <p class="cta-note">Free. Open source. Emotionally devastating.</p>
 </div>
@@ -966,26 +1088,38 @@ footer .copy {
   </div>
 </section>
 
+<!-- Screenshots -->
+<section>
+  <div class="container">
+    <div class="section-label fade-in">See it in action</div>
+    <h2 class="section-title fade-in">The dashboard of despair</h2>
+    <div class="screenshots fade-in">
+      <img src="https://github.com/user-attachments/assets/81655fdf-b222-4365-b9b7-718135b889a4" alt="Dashboard showing wait time stats" class="screenshot">
+      <img src="https://github.com/user-attachments/assets/8e8428d8-ef87-4975-bd72-6bcc9017b15d" alt="Share card for posting your stats" class="screenshot">
+    </div>
+  </div>
+</section>
+
 <!-- How It Works -->
 <section>
   <div class="container">
     <div class="section-label fade-in">How it works</div>
-    <h2 class="section-title fade-in">Three steps to self-awareness</h2>
+    <h2 class="section-title fade-in">No heuristics. No vibes.</h2>
     <div class="steps-grid">
       <div class="step fade-in">
         <div class="step-number">1</div>
         <h3>Install the app</h3>
-        <p>Takes 10 seconds. The emotional damage takes longer.</p>
+        <p>One command, about a minute. The emotional damage takes longer.</p>
       </div>
       <div class="step fade-in">
         <div class="step-number">2</div>
-        <h3>Use Claude Code normally</h3>
-        <p>Hooks install automatically. You don't have to do anything. (You're already doing nothing. That's the whole point.)</p>
+        <h3>Click Enable Tracking</h3>
+        <p>Installs two <a href="https://docs.anthropic.com/en/docs/claude-code/hooks">Claude Code hooks</a> — <code>UserPromptSubmit</code> starts the clock, <code>Stop</code> ends the suffering. No process monitoring, no accessibility permissions.</p>
       </div>
       <div class="step fade-in">
         <div class="step-number">3</div>
-        <h3>Check your stats</h3>
-        <p>Click the menu bar icon. Confront reality.</p>
+        <h3>Watch the numbers</h3>
+        <p>Events stored locally in SQLite. No cloud. No telemetry. Just you and your numbers.</p>
       </div>
     </div>
   </div>
@@ -1041,6 +1175,17 @@ footer .copy {
   </div>
 </section>
 
+<!-- Privacy -->
+<section>
+  <div class="container">
+    <div class="privacy-box fade-in">
+      <div class="section-label" style="text-align: center;">Privacy</div>
+      <h3>Your data never leaves your Mac.</h3>
+      <p>The app never reads your terminal content or Claude Code conversations — it only records timestamps. Share cards are generated locally. Nothing is sent anywhere. Ever.</p>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section>
   <div class="container">
@@ -1060,16 +1205,24 @@ footer .copy {
         <div class="faq-a">Yes. The cost is self-awareness.</div>
       </div>
       <div class="faq-item fade-in">
+        <div class="faq-q">How does it track?</div>
+        <div class="faq-a">Claude Code hooks — no process monitoring, no accessibility permissions, no heuristics, no vibes.</div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-q">Why build from source?</div>
+        <div class="faq-a">Apple's Gatekeeper blocks any app that isn't signed with a $99/year developer certificate — even if the code is fully open source and you can read every line. Building locally sidesteps all of that.</div>
+      </div>
+      <div class="faq-item fade-in">
         <div class="faq-q">Does it work with other AI tools?</div>
         <div class="faq-a">Not yet. We're focused on one existential crisis at a time.</div>
       </div>
       <div class="faq-item fade-in">
-        <div class="faq-q">Why should I track this?</div>
-        <div class="faq-a">You shouldn't. But you will. And then you'll screenshot it and post it on Twitter. We know how this ends.</div>
+        <div class="faq-q">What are "touch grass" notifications?</div>
+        <div class="faq-a">Gentle (and increasingly less gentle) reminders that the outside world exists. Set a threshold — 2, 3, or 5 minutes — and we'll nudge you. You won't listen. But we'll nudge.</div>
       </div>
       <div class="faq-item fade-in">
-        <div class="faq-q">What's the "Are you okay?" notification?</div>
-        <div class="faq-a">After 5 minutes of waiting, it checks in on you. Like a wellness app, but for your relationship with your terminal.</div>
+        <div class="faq-q">Why should I track this?</div>
+        <div class="faq-a">You shouldn't. But you will. And then you'll screenshot it and post it on Twitter. We know how this ends.</div>
       </div>
     </div>
   </div>
@@ -1080,14 +1233,29 @@ footer .copy {
   <div class="container">
     <h2 class="section-title fade-in" style="margin-bottom: 16px;">Ready to quantify the void?</h2>
     <p style="color: #666; margin-bottom: 32px; font-size: 16px;" class="fade-in">Join the growing number of developers who now know exactly how much time they spend doing nothing.</p>
-    <a href="https://github.com/Exorust/claude-still-thinking/releases/tag/v1.3.0" class="cta-btn fade-in">Download DMG</a>
-    <div class="brew-install fade-in">
-      <span class="brew-label">or install via Homebrew</span>
-      <div class="brew-cmd" onclick="navigator.clipboard.writeText('brew tap Exorust/tap\nbrew install --cask --no-quarantine claude-still-thinking');this.querySelector('.brew-copied').style.opacity='1';setTimeout(()=>this.querySelector('.brew-copied').style.opacity='0',1500)">
-        <code>brew tap Exorust/tap<br>brew install --cask --no-quarantine claude-still-thinking</code>
+    <div class="install-section fade-in">
+      <span class="install-label">Build from source (recommended)</span>
+      <div class="brew-cmd" onclick="navigator.clipboard.writeText('git clone https://github.com/Exorust/claude-still-thinking.git && cd claude-still-thinking/TimeSpend && ./scripts/install.sh');this.querySelector('.brew-copied').style.opacity='1';setTimeout(()=>this.querySelector('.brew-copied').style.opacity='0',1500)">
+        <code>git clone https://github.com/Exorust/claude-still-thinking.git<br>&& cd claude-still-thinking/TimeSpend && ./scripts/install.sh</code>
         <span class="brew-copy">copy</span>
         <span class="brew-copied">copied!</span>
       </div>
+    </div>
+    <div class="alt-installs fade-in">
+      <details>
+        <summary class="alt-toggle">Alternative installs (Homebrew / DMG)</summary>
+        <div class="alt-content">
+          <div class="brew-install">
+            <span class="brew-label">Homebrew</span>
+            <div class="brew-cmd" onclick="navigator.clipboard.writeText('brew tap Exorust/tap\nbrew install --cask --no-quarantine claude-still-thinking');this.querySelector('.brew-copied').style.opacity='1';setTimeout(()=>this.querySelector('.brew-copied').style.opacity='0',1500)">
+              <code>brew tap Exorust/tap<br>brew install --cask --no-quarantine claude-still-thinking</code>
+              <span class="brew-copy">copy</span>
+              <span class="brew-copied">copied!</span>
+            </div>
+          </div>
+          <a href="https://github.com/Exorust/claude-still-thinking/releases/tag/v1.3.0" class="cta-btn-secondary">Download DMG</a>
+        </div>
+      </details>
     </div>
     <p class="cta-note fade-in" style="margin-top: 16px;">macOS 13+. No sign-up. No telemetry. Just truth.</p>
   </div>
